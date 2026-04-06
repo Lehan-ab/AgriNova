@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrinova - Connect with Trusted Agricultural Services</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#064e3b', /* deep green */
+                        secondary: '#10b981', /* fresh green */
+                        accent: '#fbbf24', /* warm yellow */
+                        lightbg: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Dexie.js DB & JS files -->
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</head>
+<body class="bg-lightbg text-gray-800 font-sans antialiased overflow-x-hidden">
+    
+    <!-- Navigation -->
+    <header class="bg-primary text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-3 hover-lift">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-primary">
+                        <i class="fas fa-leaf text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight">Agrinova</span>
+                </a>
+                
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <div class="flex space-x-4 text-sm font-medium border-r border-green-800 pr-8">
+                        <a href="#" class="text-secondary hover:text-white transition">English</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">සිංහල</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">தமிழ்</a>
+                    </div>
+                    <button class="login-btn px-5 py-2.5 text-white border border-green-600 rounded-lg font-medium hover:bg-green-800 transition">Login</button>
+                    <button class="signup-btn px-5 py-2.5 bg-secondary text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:bg-emerald-500 hover:-translate-y-0.5 transition duration-200">Sign Up</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-white hover:text-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary p-2 rounded-md">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Nav (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-emerald-900 border-t border-emerald-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emerald-800">English</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-emerald-800">සිංහල</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-emerald-800">தமிழ்</a>
+                <button class="login-btn w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emerald-800">Login</button>
+                <button class="signup-btn w-full mt-2 bg-secondary text-white block px-3 py-2 rounded-md text-base font-medium shadow-md hover:bg-emerald-500 text-center">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main>
+        <div class="relative bg-primary overflow-hidden">
+            <!-- Decorative Background Element -->
+            <div class="absolute inset-y-0 right-0 w-1/2 bg-emerald-800 opacity-20 transform -skew-x-12 translate-x-32 hidden lg:block"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-16 pb-24 lg:pt-24 lg:pb-32 flex flex-col lg:flex-row items-center">
+                <div class="text-center lg:text-left lg:w-1/2 pr-0 lg:pr-12">
+                    <span class="inline-block py-1 px-3 rounded-full bg-emerald-800 text-emerald-200 text-sm font-semibold mb-4 border border-emerald-700">#1 Sri Lankan Agri Network</span>
+                    <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl mb-6">
+                        Connect with Trusted <br>
+                        <span class="text-accent text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Agricultural Services</span> <br>
+                        Near You
+                    </h1>
+                    <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl mx-auto lg:mx-0 mb-10">
+                        Find top-rated seeds, machinery, transport, and expert advisory. Join thousands of farmers growing their business with Agrinova.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button onclick="window.location.href='search.html'" class="px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-primary bg-accent hover:bg-yellow-300 shadow-xl hover-lift">
+                            <i class="fas fa-search mr-2"></i> Find Services
+                        </button>
+                        <button class="signup-btn px-8 py-4 border border-emerald-500 text-lg font-medium rounded-xl text-white bg-transparent hover:bg-emerald-800 shadow-lg hover-lift">
+                            <i class="fas fa-store mr-2"></i> List Your Service
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Box floated right on desktop -->
+                <div class="mt-12 lg:mt-0 lg:w-1/2 w-full max-w-md mx-auto relative z-20">
+                    <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 relative">
+                        <div class="absolute -top-4 -right-4 bg-accent w-24 h-24 rounded-full blur-2xl opacity-50"></div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Quick Search</h3>
+                        <form action="search.html" method="GET" class="space-y-4 relative z-10">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">What do you need?</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                        <i class="fas fa-tractor"></i>
+                                    </span>
+                                    <input type="text" name="q" class="pl-10 block w-full shadow-sm focus:ring-primary focus:border-primary border-gray-300 rounded-lg p-3 bg-gray-50 border" placeholder="e.g. Tractor rental, Seeds">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    <select name="loc" class="pl-10 block w-full shadow-sm focus:ring-primary focus:border-primary border-gray-300 rounded-lg p-3 bg-gray-50 border">
+                                        <option value="">Any Location</option>
+                                        <option value="Anuradhapura">Anuradhapura</option>
+                                        <option value="Kurunegala">Kurunegala</option>
+                                        <option value="Dambulla">Dambulla</option>
+                                        <option value="Kandy">Kandy</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-white bg-primary hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary text-lg font-medium transition">
+                                Search Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">Browse by Category</h2>
+                    <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    <!-- Category Card 1 -->
+                    <a href="search.html?cat=Seeds" class="flex flex-col items-center p-6 bg-green-50 rounded-2xl hover:bg-green-100 hover-lift border border-green-100 transition text-center group">
+                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-2xl text-secondary group-hover:scale-110 transition-transform">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-800">Seeds</h3>
+                    </a>
+                    
+                    <!-- Category Card 2 -->
+                    <a href="search.html?cat=Machinery" class="flex flex-col items-center p-6 bg-blue-50 rounded-2xl hover:bg-blue-100 hover-lift border border-blue-100 transition text-center group">
+                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-2xl text-blue-600 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-800">Machinery</h3>
+                    </a>
+                    
+                    <!-- Category Card 3 -->
+                    <a href="search.html?cat=Transport" class="flex flex-col items-center p-6 bg-orange-50 rounded-2xl hover:bg-orange-100 hover-lift border border-orange-100 transition text-center group">
+                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-2xl text-orange-500 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-800">Transport</h3>
+                    </a>
+
+                    <!-- Category Card 4 -->
+                    <a href="search.html?cat=Advisory" class="flex flex-col items-center p-6 bg-purple-50 rounded-2xl hover:bg-purple-100 hover-lift border border-purple-100 transition text-center group">
+                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-2xl text-purple-600 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-800">Advisory</h3>
+                    </a>
+
+                    <!-- Category Card 5 -->
+                    <a href="search.html?cat=Fertilizer" class="flex flex-col items-center p-6 bg-yellow-50 rounded-2xl hover:bg-yellow-100 hover-lift border border-yellow-100 transition text-center group">
+                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-2xl text-yellow-600 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-800">Fertilizer</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="bg-gray-50 py-16 lg:py-24 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl tracking-tight font-extrabold text-gray-900">How It Works</h2>
+                    <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">Three simple steps to boost your agricultural productivity.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
+                    <!-- Connector line -->
+                    <div class="hidden md:block absolute top-1/4 left-[16%] right-[16%] h-1 bg-gradient-to-r from-emerald-200 via-accent to-emerald-200 transform -translate-y-1/2 z-0"></div>
+                    
+                    <div class="relative z-10 bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center hover-lift">
+                        <div class="w-20 h-20 mx-auto bg-primary text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg border-4 border-white">1</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Search</h3>
+                        <p class="text-gray-600">Find the exact service or product you need using our powerful search and filters.</p>
+                    </div>
+
+                    <div class="relative z-10 bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center hover-lift">
+                        <div class="w-20 h-20 mx-auto bg-secondary text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg border-4 border-white">2</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Compare</h3>
+                        <p class="text-gray-600">Review verified profiles, ratings, and pricing to choose the best supplier.</p>
+                    </div>
+
+                    <div class="relative z-10 bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center hover-lift">
+                        <div class="w-20 h-20 mx-auto bg-accent text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg border-4 border-white">3</div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Connect</h3>
+                        <p class="text-gray-600">Message directly, book services online, and safely get the job done.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="bg-primary py-16 text-white text-center">
+            <h2 class="text-3xl font-bold mb-10">Trusted by Sri Lankan Farmers</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-8 max-w-5xl mx-auto px-4">
+                <div class="bg-emerald-900 p-8 rounded-2xl shadow-xl flex-1 text-left relative">
+                    <i class="fas fa-quote-left absolute top-6 right-6 text-4xl text-emerald-700 opacity-50"></i>
+                    <p class="text-lg italic text-emerald-100 mb-6 drop-shadow-sm">"Agrinova made it so easy to find a tractor during the peak season. The verified badge gave me confidence."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary font-bold text-xl">S</div>
+                        <div>
+                            <h4 class="font-bold">Sunil Perera</h4>
+                            <div class="text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-emerald-900 p-8 rounded-2xl shadow-xl flex-1 text-left relative">
+                    <i class="fas fa-quote-left absolute top-6 right-6 text-4xl text-emerald-700 opacity-50"></i>
+                    <p class="text-lg italic text-emerald-100 mb-6 drop-shadow-sm">"As a supplier, I've doubled my customer base simply by listing my transport services here."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-xl">N</div>
+                        <div>
+                            <h4 class="font-bold">Nuwan Transport</h4>
+                            <div class="text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-leaf text-secondary text-2xl"></i>
+                        <span class="font-bold text-2xl tracking-tight">Agrinova</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Empowering Sri Lanka's agricultural sector through technology and secure connections.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-gray-700 pb-2 inline-block">Platform</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Find Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">List Your Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">How it Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-gray-700 pb-2 inline-block">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Safety Guidelines</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary transition text-sm">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-gray-700 pb-2 inline-block">Contact</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-secondary"></i> 123 Agri Hub, Colombo, Sri Lanka</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-phone mt-1 text-secondary"></i> +94 11 234 5678</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope mt-1 text-secondary"></i> support@agrinova.lk</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Agrinova Platform. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

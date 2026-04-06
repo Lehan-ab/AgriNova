@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Service - Agrinova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#064e3b', secondary: '#10b981', lightbg: '#f8fafc' } } } }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body class="bg-gray-50 font-sans antialiased text-gray-800 pb-12">
+    <!-- Navbar -->
+    <nav class="bg-primary text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+            <a href="javascript:history.back()"
+                class="flex items-center gap-2 hover:text-secondary text-sm font-medium">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <div class="font-bold text-lg">Request Service</div>
+            <div class="w-12"></div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Supplier Summary Card -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 mb-6">
+            <div
+                class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl font-bold shrink-0">
+                <i class="fas fa-tractor"></i>
+            </div>
+            <div>
+                <h2 class="font-bold text-gray-900">Green Harvest Machinery</h2>
+                <div class="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                    <span class="text-accent"><i class="fas fa-star"></i> 4.8</span>
+                    <span>•</span>
+                    <span>Kurunegala</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden" id="bookingContainer">
+            <div class="h-2 bg-primary"></div>
+            <form id="bookingForm" class="p-6 md:p-8 space-y-6">
+
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 border-b pb-2 mb-4">Request Details</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Select Service <span
+                                    class="text-red-500">*</span></label>
+                            <select required id="serviceType"
+                                class="w-full border border-gray-300 rounded-xl p-3 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none bg-gray-50 appearance-none font-medium text-gray-800">
+                                <option value="">Choose a service...</option>
+                                <option value="Tractor Rental">Tractor Rental (with operator)</option>
+                                <option value="Combine Harvester">Combine Harvester</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Date <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <i
+                                        class="fas fa-calendar-alt absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input type="date" id="bookingDate" required
+                                        class="w-full pl-10 border border-gray-300 rounded-xl p-3 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none bg-gray-50 text-gray-800 font-medium">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Time <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <i class="fas fa-clock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <select id="bookingTime" required
+                                        class="w-full pl-10 border border-gray-300 rounded-xl p-3 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none bg-gray-50 appearance-none font-medium text-gray-800">
+                                        <option value="">Select time...</option>
+                                        <option value="Morning">Morning (8:00 AM - 12:00 PM)</option>
+                                        <option value="Afternoon">Afternoon (1:00 PM - 5:00 PM)</option>
+                                        <option value="Full Day">Full Day</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Farm Location (Address or
+                                Landmark) <span class="text-red-500">*</span></label>
+                            <input type="text" id="farmLocation" required
+                                placeholder="e.g. Near the main tank, Dambulla"
+                                class="w-full border border-gray-300 rounded-xl p-3 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none bg-gray-50 font-medium">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Additional Notes
+                                (Optional)</label>
+                            <textarea id="notes" rows="3"
+                                placeholder="Describe the size of the land, crop type, or any specific instructions..."
+                                class="w-full border border-gray-300 rounded-xl p-3 focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 outline-none bg-gray-50 font-medium resize-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-gray-100 flex gap-4">
+                    <button type="button" onclick="history.back()"
+                        class="px-6 py-3 border border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition w-full md:w-auto">Cancel</button>
+                    <button type="submit"
+                        class="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-emerald-800 transition w-full flex-grow shadow-md flex items-center justify-center gap-2">
+                        Submit Request <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success State (Hidden initially) -->
+        <div id="successState"
+            class="hidden bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center fade-in">
+            <div
+                class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 scale-in">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Request Submitted!</h2>
+            <p class="text-gray-600 mb-6 max-w-md mx-auto">Your request has been securely sent. The supplier will review
+                it and get back to you shortly to confirm the booking.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="window.location.href='farmer-dashboard.html'"
+                    class="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-emerald-800 transition shadow-sm">View
+                    My Dashboard</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/booking.js"></script>
+</body>
+
+</html>

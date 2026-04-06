@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Profile - Agrinova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary: '#064e3b', secondary: '#10b981', accent: '#fbbf24', lightbg: '#f8fafc' } } }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body class="bg-gray-50 font-sans antialiased text-gray-800 pb-20 md:pb-0">
+    <!-- Navbar -->
+    <nav class="bg-primary text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+            <a href="javascript:history.back()"
+                class="flex items-center gap-2 hover:text-secondary text-sm font-medium">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </a>
+            <div class="font-bold text-lg">Profile</div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Banner & Header -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+            <div class="h-32 md:h-48 bg-gradient-to-r from-emerald-800 to-primary relative">
+                <div class="absolute inset-0 bg-black opacity-10 pattern-diagonal-lines"></div>
+                <button
+                    class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur rounded-full text-white hover:bg-white hover:text-red-500 transition shadow-sm flex items-center justify-center">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+            <div class="px-6 md:px-8 pb-6 relative">
+                <div class="flex flex-col md:flex-row gap-6 md:items-end -mt-12 md:-mt-16 mb-4">
+                    <div
+                        class="w-24 h-24 md:w-32 md:h-32 bg-white rounded-xl shadow-lg border-4 border-white flex items-center justify-center text-5xl text-emerald-600 bg-emerald-50 z-10 shrink-0">
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    <div class="flex-grow pt-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h1 class="text-2xl md:text-3xl font-bold text-gray-900" id="profileName">Green Harvest
+                                Machinery</h1>
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                                <i class="fas fa-check-circle mr-1"></i> Verified
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap items-center mt-2 gap-4 text-sm text-gray-600 font-medium">
+                            <span class="flex items-center"><i class="fas fa-map-marker-alt text-primary mr-1"></i>
+                                Kurunegala</span>
+                            <span class="flex items-center text-accent"><i class="fas fa-star mr-1"></i> <span
+                                    class="text-gray-800" id="profileRating">4.8 (32 Reviews)</span></span>
+                            <span class="flex items-center"><i class="fas fa-briefcase text-primary mr-1"></i>
+                                Machinery</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 leading-relaxed text-sm md:text-base max-w-3xl" id="profileDesc">
+                    Professional tractor and combine harvester rental services. We specialize in deep plowing, land
+                    leveling, and rapid harvesting. Our equipment is well-maintained to guarantee minimal downtime
+                    during your crucial farming seasons.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Column: Services & Reviews -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Services Offered -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 pb-2 border-b">Available Services</h3>
+                    <div class="space-y-4">
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-lg">Tractor Rental (with operator)</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Includes modern tractor and experienced driver
+                                        for plowing or transport.</p>
+                                </div>
+                                <div class="text-right shrink-0 ml-4">
+                                    <div class="font-bold text-primary text-lg">Rs. 4500</div>
+                                    <div class="text-xs text-gray-400">per hour</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-lg">Combine Harvester</h4>
+                                    <p class="text-sm text-gray-500 mt-1">High-capacity rice harvesting.</p>
+                                </div>
+                                <div class="text-right shrink-0 ml-4">
+                                    <div class="font-bold text-primary text-lg">Rs. 8000</div>
+                                    <div class="text-xs text-gray-400">per acre</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Skeleton -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-4 pb-2 border-b">
+                        <h3 class="text-lg font-bold text-gray-900">Farmer Reviews</h3>
+                        <div class="flex items-center gap-1 text-accent"><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star-half-alt"></i></div>
+                    </div>
+                    <div class="space-y-4 divide-y divide-gray-100">
+                        <div class="pt-4 first:pt-0">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-sm text-gray-800">Saman Kumara</span>
+                                <span class="text-xs text-gray-400">1 week ago</span>
+                            </div>
+                            <div class="flex text-accent text-xs mb-2"><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></div>
+                            <p class="text-sm text-gray-600">Arrived on time and completed the land prep much faster
+                                than expected. Highly recommended.</p>
+                        </div>
+                        <div class="pt-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-sm text-gray-800">Nimal Silva</span>
+                                <span class="text-xs text-gray-400">3 weeks ago</span>
+                            </div>
+                            <div class="flex text-accent text-xs mb-2"><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="far fa-star"></i></div>
+                            <p class="text-sm text-gray-600">Good service, driver was very helpful.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sticky Contact Card -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-24">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Contact Supplier</h3>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3 text-sm text-gray-600">
+                            <div
+                                class="w-8 h-8 rounded-full bg-emerald-50 text-primary flex items-center justify-center shrink-0">
+                                <i class="fas fa-phone-alt"></i></div>
+                            <span class="font-medium">+94 77 123 4567</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-gray-600">
+                            <div
+                                class="w-8 h-8 rounded-full bg-emerald-50 text-primary flex items-center justify-center shrink-0">
+                                <i class="fas fa-clock"></i></div>
+                            <span class="font-medium">Available: 6 AM - 6 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="window.location.href='booking.html'"
+                            class="w-full py-3 bg-secondary hover:bg-emerald-600 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fas fa-calendar-check"></i> Request Service
+                        </button>
+                        <button onclick="window.location.href='messages.html'"
+                            class="w-full py-3 bg-white border-2 border-primary text-primary hover:bg-emerald-50 font-bold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div
+                        class="mt-6 border border-gray-200 rounded-xl overflow-hidden bg-gray-100 h-32 relative flex items-center justify-center group cursor-pointer">
+                        <div class="absolute inset-0 bg-[url('https://transparent-bg.com')] opacity-20"
+                            style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 10px 10px;">
+                        </div>
+                        <div
+                            class="bg-white p-2 rounded-lg shadow-sm text-xs font-bold text-gray-700 flex items-center gap-1 z-10 group-hover:scale-105 transition">
+                            <i class="fas fa-map-marker-alt text-red-500"></i> View on Map
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Action Bar (visible only on small screens) -->
+    <div
+        class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-40 md:hidden flex gap-3">
+        <button onclick="window.location.href='messages.html'"
+            class="flex-1 py-3 bg-white border border-primary text-primary font-bold rounded-xl shadow-sm text-sm"><i
+                class="fas fa-comment"></i> Message</button>
+        <button onclick="window.location.href='booking.html'"
+            class="flex-[2] py-3 bg-primary text-white font-bold rounded-xl shadow-sm text-sm">Request Service</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - Agrinova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#064e3b',
+                        secondary: '#10b981',
+                        accent: '#fbbf24',
+                        lightbg: '#f8fafc'
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+    <!-- Navbar -->
+    <nav class="bg-primary text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fas fa-leaf text-secondary text-xl"></i>
+                    <span class="font-bold text-xl">Agrinova</span>
+                </a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="search.html" class="hover:text-secondary transition text-sm">Find Services</a>
+                    <a href="messages.html" class="hover:text-secondary transition text-sm"><i
+                            class="fas fa-envelope mr-1"></i> Messages</a>
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-2 px-3 py-1 bg-emerald-800 rounded-lg hover:bg-emerald-700 transition">
+                            <i class="fas fa-user-circle"></i> <span
+                                class="user-name-display text-sm font-medium">Farmer</span>
+                        </button>
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block border border-gray-100">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile
+                                Settings</a>
+                            <button id="logoutBtn"
+                                class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <!-- Welcome Header -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Welcome back, <span
+                        class="user-name-display text-primary">Farmer</span> 👋</h1>
+                <p class="text-gray-500 mt-1">What agricultural services do you need today?</p>
+            </div>
+            <div class="hidden sm:block">
+                <button onclick="window.location.href='search.html'"
+                    class="px-6 py-2.5 bg-secondary text-white rounded-lg shadow-md hover:bg-emerald-600 transition font-medium">New
+                    Request</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Main Content Area -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Search & Actions -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <form action="search.html" method="GET" class="relative">
+                        <input type="text" name="q" placeholder="Search for seeds, machinery, transport..."
+                            class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-inner text-gray-700">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </form>
+
+                    <div class="flex gap-3 mt-4 overflow-x-auto no-scrollbar pb-2">
+                        <a href="search.html?cat=Tractor"
+                            class="whitespace-nowrap px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium hover:bg-emerald-100 transition"><i
+                                class="fas fa-tractor mr-1"></i> Tractor</a>
+                        <a href="search.html?cat=Seeds"
+                            class="whitespace-nowrap px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium hover:bg-emerald-100 transition"><i
+                                class="fas fa-seedling mr-1"></i> Seeds</a>
+                        <a href="search.html?cat=Transport"
+                            class="whitespace-nowrap px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium hover:bg-emerald-100 transition"><i
+                                class="fas fa-truck mr-1"></i> Transport</a>
+                        <a href="search.html?cat=Irrigation"
+                            class="whitespace-nowrap px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium hover:bg-emerald-100 transition"><i
+                                class="fas fa-water mr-1"></i> Irrigation</a>
+                    </div>
+                </div>
+
+                <!-- Recent Requests -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Your Recent Requests</h3>
+                    <div class="space-y-4" id="recentRequestsList">
+                        <!-- Mock data placeholder, will be populated by JS ideally, but static fallback is here -->
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-clock"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Tractor Rental (4 hours)</h4>
+                                    <p class="text-xs text-gray-500">Green Harvest Machinery • Apr 10, 2026</p>
+                                </div>
+                            </div>
+                            <span
+                                class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-semibold">Pending</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Suppliers -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Recommended for you</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="supplier-profile.html"
+                            class="flex items-start gap-4 p-4 border border-gray-100 hover:border-emerald-300 rounded-xl hover:shadow-md transition bg-white group">
+                            <div
+                                class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
+                                <i class="fas fa-seedling text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 group-hover:text-primary transition">Lanka Seeds Co
+                                    <i class="fas fa-check-circle text-blue-500 text-xs"></i></h4>
+                                <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i
+                                        class="fas fa-star text-accent"></i> 4.5 • Anuradhapura</div>
+                            </div>
+                        </a>
+                        <a href="supplier-profile.html"
+                            class="flex items-start gap-4 p-4 border border-gray-100 hover:border-emerald-300 rounded-xl hover:shadow-md transition bg-white group">
+                            <div
+                                class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
+                                <i class="fas fa-tractor text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 group-hover:text-primary transition">Green Harvest
+                                    Machinery <i class="fas fa-check-circle text-blue-500 text-xs"></i></h4>
+                                <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i
+                                        class="fas fa-star text-accent"></i> 4.8 • Kurunegala</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Weather Widget Mockup -->
+                <div
+                    class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl shadow-sm p-6 text-white relative overflow-hidden">
+                    <i class="fas fa-cloud-sun text-6xl absolute -right-4 -bottom-4 opacity-20"></i>
+                    <h3 class="font-semibold text-blue-100 mb-1">Anuradhapura</h3>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-sun text-4xl text-yellow-300"></i>
+                        <span class="text-4xl font-bold">32°C</span>
+                    </div>
+                    <p class="text-sm text-blue-100 mt-2">Sunny, good for land prep.</p>
+                </div>
+
+                <!-- Notifications Panel -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex justify-between items-center mb-4 border-b pb-2">
+                        <h3 class="text-lg font-bold text-gray-800">Notifications</h3>
+                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-bold">2 New</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-3 items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fas fa-comment-dots text-sm"></i></div>
+                            <div>
+                                <p class="text-sm text-gray-800"><strong>AgriAdvisor Silva</strong> replied to your
+                                    message.</p>
+                                <span class="text-xs text-gray-400">10 mins ago</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-green-50 text-green-500 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fas fa-check text-sm"></i></div>
+                            <div>
+                                <p class="text-sm text-gray-800">Your account verification was successful.</p>
+                                <span class="text-xs text-gray-400">1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
